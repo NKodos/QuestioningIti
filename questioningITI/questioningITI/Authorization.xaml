@@ -1,0 +1,21 @@
+﻿<Window x:Class="questioningITI.Authorization"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:questioningITI"
+        mc:Ignorable="d"
+        Title="Авторизация" Height="500" Width="550" FontFamily="HelveticaNeueCyr" Background="#FFA0BAAD" Icon="autorization.ico">
+    <Grid>
+        <Grid MinHeight="400px" MinWidth="500px">
+            <StackPanel Background="White" MaxHeight="280px" MaxWidth="500px" Margin="80px 70px" >
+                <Label Background="#0067a2" Foreground="White" FontWeight="Light" FontSize="18" Margin="40 -15" Padding="0 8px" HorizontalContentAlignment="Center" Opacity="0.9">АВТОРИЗАЦИЯ</Label>
+                <TextBlock Margin="40, 40, 40, 0" Foreground="#8f929f" FontSize="16">Логин</TextBlock>
+                <TextBox Name="txtLoginEntry" Background="#dbdbdb" Margin="40, 0, 40, 0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="40px" VerticalContentAlignment="Center" BorderThickness="0" CaretBrush="#8f929f" FontWeight="Light" FontSize="18" Foreground="#FF8F929F" MaxLength="25" Padding="20px 0px"/>
+                <TextBlock Margin="40, 10, 40, 0" Foreground="#8f929f" FontSize="16">Пароль</TextBlock>
+                <PasswordBox x:Name="txtPasswordEntry" Background="#dbdbdb" Margin="40, 0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="40px" VerticalContentAlignment="Center" BorderThickness="0" CaretBrush="#8f929f" FontWeight="Light" FontSize="18" Foreground="#FF8F929F" MaxLength="25" Padding="20px 0px" />
+                <Button Margin="40, 20, 40, 0" Background="#0067a2" Foreground="White" FontWeight="Light" FontSize="16"  BorderThickness="0" Click="Button_Click">ВОЙТИ</Button>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

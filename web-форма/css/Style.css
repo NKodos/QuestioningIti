@@ -1,0 +1,169 @@
+﻿body {
+    margin: 0;
+    padding: 0;
+    font-family: HelveticaNeueCyr, Tahoma, sans-serif;
+}
+/* Кастомизируем radiobutton 
+input[type="radio"]{display: none;}
+
+label.radio_label {
+    display: inline-block;
+    position:relative;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: 2px solid #696969;
+    top: 5px;
+    margin-right: 8px;
+}
+
+input[type="radio"]:checked+label{
+   border: 2px solid #0066A2;
+   background: url("../img/dot.png") no-repeat;
+   background-position: 3px 3px;
+}
+/* the end */
+.button {
+	border: 1px solid white;
+	border-radius: 7px;
+	display: block;
+	padding: 6px 12px;
+	font-weight: bold;
+    transition: .5s ease-out;
+    transition-delay: 0.1s;
+}
+.button:hover{
+	background-color: white;
+	color: #0067a2;
+	cursor: pointer;
+    border-radius: 0;
+}
+header {
+    background-color: #0067a2;
+    color: white;
+    padding: 10px 5%;
+}
+header > div {
+	display: inline-block;
+}
+header h1 {
+	font-size: 16px;
+	display: inline-block;
+	font-weight: 400;
+	margin-left: 10px;
+}
+header .logo img {
+	
+	width: 60px;
+}
+header .userName {
+	display: inline-block;
+	float: right;
+	margin: 20px 0;
+}
+header .buttonExit {
+	display: inline-block;
+	float: right;
+	margin: 15px 0 0 10px;
+}
+.main_form {
+    padding: 0 10%;
+}
+.info_for_user {
+    text-indent: 1.5em;
+    margin: 10px auto 20px auto;
+}
+.info_for_user h4 {
+    font-style: italic;
+    text-align: center;
+}
+.info_for_user p {
+    text-align: justify;
+}
+.main_form hr {
+    margin-bottom: 20px;
+}
+.main_form .label {
+    
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.main_form .conditions {
+    margin-bottom: 20px;
+}
+.question {
+    padding: 0 5%;
+    margin: 10px 0 20px 0;
+}
+.answers {
+    padding: 0 5%;
+}
+.qB {
+    margin-bottom: 30px;
+}
+.titleQB {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+.textQ {
+    margin-bottom: 10px;
+}
+.answer {
+    margin-top: 8px;
+}
+select {
+    border: 0px;
+    padding: 2px;
+    border-bottom: 1px solid #C7C7C7;
+    font-size: 16px;
+    margin-top: 7px;
+}
+.no_answer {
+    
+}
+.no_answer::before{
+    content: "Ответьте на вопрос!!! ";
+    color: red;
+    font-weight: bold;
+}
+.btn_send {
+    font-size: 14px;
+    margin-bottom: 30px;
+    background: none;
+    padding: 5px 15px 3px 15px;
+    border: 2px solid #0067a2;
+    color: #0067a2;
+    font-weight: bold;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: .5s ease-out;
+    transition-delay: 0.1s;
+}
+.btn_send:hover {
+    background: #0067a2;    
+    color: white;
+    border-radius: 0;
+}
+.noneMess {
+    display: none;
+}
+.greenText {
+    color: green;
+}
+.errorMess {
+    color: red;
+    display:block;
+    padding: 15px 35px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    background-color: #FFE3E3;
+}
+.message {
+    color: green;
+    display:block;
+    padding: 15px 35px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    background-color: #D6F2D6;
+}
