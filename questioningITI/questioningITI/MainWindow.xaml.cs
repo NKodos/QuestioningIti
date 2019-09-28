@@ -9,7 +9,7 @@ using System.Windows.Media;
 namespace questioningITI
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия для MainWindow.xaml 
     /// </summary>
     public partial class MainWindow
     {
