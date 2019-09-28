@@ -60,7 +60,7 @@ namespace questioningITI
         private void btnCreatehistogram_Click(object sender, RoutedEventArgs e)
         {
             FormResult FR = new FormResult();
-            FR.listRows = listRows;
+            FR.ListRows = listRows;
             FR.Show();
         }
     }

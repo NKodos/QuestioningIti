@@ -13,7 +13,7 @@ namespace questioningITI
 {
     public partial class FormResult : Form
     {
-        public List<RowForResultTable> listRows { get; set; }
+        public List<RowForResultTable> ListRows { get; set; }
 
         public FormResult()
         {
@@ -22,11 +22,11 @@ namespace questioningITI
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            int index = 0;
+            const int index = 0;
 
-            foreach (RowForResultTable row in listRows)
+            foreach (var row in ListRows)
             {
-                Series ser = new Series() { Name = row.nameProfTask };
+                var ser = new Series() { Name = row.nameProfTask };
                 ser.IsValueShownAsLabel = true;
                 ser.Points.AddXY(row.nameProfTask, row.col_1);
                 chart1.Series.Add(ser);

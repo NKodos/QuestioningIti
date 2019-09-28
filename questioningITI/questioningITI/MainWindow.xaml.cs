@@ -11,7 +11,7 @@ namespace questioningITI
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         private QueryToDB _query = new QueryToDB();
         private string _answer = "";
@@ -179,10 +179,10 @@ namespace questioningITI
             _query.Table = "Businesses";
             _query.Query = "SELECT * FROM questioning.businesses WHERE id = '" + idCompany + "'";
             _answer = QueryToDB.SendQuery(_query);
-            ListBusinesses LB = (ListBusinesses)QueryToDB.ProcessResponse(_answer, _query);
-            tbNameEditCompany.Text = LB.listBusinesses[0].Name;
-            cbIndustryInCompanyEdit.SelectedValue = LB.listBusinesses[0].Industry;
-            tbDescriptionEditCompany.Text = LB.listBusinesses[0].Description;
+            var listBusinesses = (ListBusinesses)QueryToDB.ProcessResponse(_answer, _query);
+            tbNameEditCompany.Text = listBusinesses.listBusinesses[0].Name;
+            cbIndustryInCompanyEdit.SelectedValue = listBusinesses.listBusinesses[0].Industry;
+            tbDescriptionEditCompany.Text = listBusinesses.listBusinesses[0].Description;
 
         }
 

@@ -1,17 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace questioningITI
 {
@@ -20,8 +8,7 @@ namespace questioningITI
     /// </summary>
     public partial class Authorization : Window
     {
-        QueryToDB q1 = new QueryToDB();
-        string answer = "";
+        QueryToDB _queryToDb = new QueryToDB();
 
         public Authorization()
         {
@@ -32,15 +19,14 @@ namespace questioningITI
         {
             try
             {
-                MainWindow win = new MainWindow();
-                win.Owner = this;
+                var win = new MainWindow {Owner = this};
 
-                q1.Type = "SELECT";
-                q1.Table = "Users";
-                q1.Query = "SELECT * FROM questioning.Users WHERE login = '" + txtLoginEntry.Text + "'";
-                q1.password = txtPasswordEntry.Password;
+                _queryToDb.Type = "SELECT";
+                _queryToDb.Table = "Users";
+                _queryToDb.Query = "SELECT * FROM questioning.Users WHERE login = '" + txtLoginEntry.Text + "'";
+                _queryToDb.password = txtPasswordEntry.Password;
 
-                if (QueryToDB.SendQuery(q1) == "ok")
+                if (QueryToDB.SendQuery(_queryToDb) == "ok")
                     win.Show();
                 else
                     MessageBox.Show("Ошибка авторизации");
