@@ -1,11 +1,10 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Newtonsoft.Json;
 
 namespace ServerQuestioningITI
 {
@@ -14,8 +13,8 @@ namespace ServerQuestioningITI
         private TcpClient _tcpClient = new TcpClient();
         private TcpListener _tcpListner;
 
-        static string jsonData = "";
-        static QueryToDB q1 = new QueryToDB();
+        static string _jsonData = "";
+        static QueryToDb _q1 = new QueryToDb();
 
         public MainForm()
         {
@@ -62,7 +61,7 @@ namespace ServerQuestioningITI
             _tcpClient.Close();
         }
 
-        async private Task BackgroundThreadMethodAsync()
+        async private void BackgroundThreadMethodAsync()
         {
             await Task.Run(() => BackgroundThreadMethod());
         }
@@ -79,19 +78,18 @@ namespace ServerQuestioningITI
                     _tcpClient = _tcpListner.AcceptTcpClient();
 
                     StreamReader sr = new StreamReader(_tcpClient.GetStream());
-                    jsonData = sr.ReadLine();
+                    _jsonData = sr.ReadLine();
                     Invoke(new Action(() =>
                     {
-                        txtLog.Text += DateTime.Now.ToString("hh:mm:ss") + " Получен строка в json: " + jsonData + Environment.NewLine;
+                        txtLog.Text += DateTime.Now.ToString("hh:mm:ss") + " Получен строка в json: " + _jsonData + Environment.NewLine;
                         txtLog.SelectionStart = txtLog.Text.Length;
                         txtLog.ScrollToCaret();
                     }));
 
-                    q1 = JsonConvert.DeserializeObject<QueryToDB>(jsonData);
-                    string answer = q1.RunQuery();
+                    _q1 = JsonConvert.DeserializeObject<QueryToDb>(_jsonData);
+                    string answer = _q1.RunQuery();
 
-                    StreamWriter sw = new StreamWriter(_tcpClient.GetStream());
-                    sw.AutoFlush = true;
+                    StreamWriter sw = new StreamWriter(_tcpClient.GetStream()) {AutoFlush = true};
                     sw.WriteLine(answer);
                     Invoke(new Action(() =>
                     {
@@ -105,16 +103,15 @@ namespace ServerQuestioningITI
             }
             catch (SocketException ex) when (ex.ErrorCode == 10004)
             {
-                return;
             }
             catch (Exception ex)
             {
                 Invoke(new Action(() =>
                 {
-                    txtLog.Text += DateTime.Now.ToString("hh:mm:ss") + " Ошибка: " + ex.ToString() + Environment.NewLine;
+                    txtLog.Text += DateTime.Now.ToString("hh:mm:ss") + " Ошибка: " + ex + Environment.NewLine;
                     txtLog.SelectionStart = txtLog.Text.Length;
                     txtLog.ScrollToCaret();
-                    this.StopBackThread();
+                    StopBackThread();
                     StartBackThread();
                 }));
             }

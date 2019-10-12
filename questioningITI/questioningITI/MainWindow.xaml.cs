@@ -227,7 +227,8 @@ namespace questioningITI
             txtBx.Select(0, 0);
             if (txtBx.Text.Replace(" ", "") != "")
             {                
-                TextBox tboxNewQuestion = new TextBox() { FontSize = 16, VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(50, 0, 85, 10), BorderThickness = new Thickness(0, 0, 0, 2), BorderBrush = Brushes.LightGray };
+                TextBox tboxNewQuestion = new TextBox() { FontSize = 16, VerticalAlignment = VerticalAlignment.Center,
+                    Margin = new Thickness(50, 0, 85, 10), BorderThickness = new Thickness(0, 0, 0, 2), BorderBrush = Brushes.LightGray };
                 tboxNewQuestion.LostFocus += new RoutedEventHandler(TB_NewQuestion_LostFocus);
                 ((StackPanel)txtBx.Parent).Children.Add(tboxNewQuestion);
                 txtBx.LostFocus -= TB_NewQuestion_LostFocus;
@@ -235,12 +236,7 @@ namespace questioningITI
                 txtBx.LostFocus += new RoutedEventHandler(TB_RemoveTB_LostFocus);
             }
         }
-
-        private object AddHandler()
-        {
-            throw new NotImplementedException();
-        }
-
+        
         // Нажатие на кнопку Отмена в Анкета > Редактирование
         private void btnCancelEditQuestioning_Click(object sender, RoutedEventArgs e)
         {
@@ -261,143 +257,7 @@ namespace questioningITI
             tabControl_Directions.SelectedIndex = 0;
             GridCursorDirections.Margin = new Thickness(10 + 150 * 0, 0, 0, 0);
         }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        // Загрузка информацией Главная (просмотр анкет)
-        //private void LoadQuestionnairesView()
-        //{
-        //    _query.Type = "SELECT"; _query.Table = "QuestionnaireInfo"; _query.Query = "SELECT 0";
-        //    _answer = QueryToDB.SendQuery(_query); 
-
-        //    List<QuestionnaireInfo> listQuestionnaireInfo= (List<QuestionnaireInfo>)QueryToDB.ProcessResponse(_answer, _query);
-
-        //    QuestionnairesViewContainer.Children.Clear();
-        //    // заполнение информацией
-        //    foreach (QuestionnaireInfo questionnaireInfo in listQuestionnaireInfo)
-        //    {
-        //        StackPanel el1 = new StackPanel() { Margin = new Thickness(20, 15, 0, 0), Background = Brushes.White };
-
-        //        el1.Children.Add(new Label()
-        //        {
-        //            FontWeight = FontWeights.Bold,
-        //            Foreground = (Brush)(new BrushConverter().ConvertFrom("#303030")),
-        //            Content = "Заголовок задачи:"
-        //        });
-
-        //        el1.Children.Add(new TextBlock()
-        //        {
-        //            TextWrapping = TextWrapping.Wrap,
-        //            Margin = new Thickness(10, 0, 10, 0),
-        //            HorizontalAlignment = HorizontalAlignment.Stretch,
-        //            FontSize = 16,
-        //            Text = questionBlock.Title
-        //        });
-
-        //        el1.Children.Add(new Label()
-        //        {
-        //            FontWeight = FontWeights.Bold,
-        //            Foreground = (Brush)(new BrushConverter().ConvertFrom("#303030")),
-        //            Content = "Краткое название:"
-        //        });
-
-        //        el1.Children.Add(new TextBlock()
-        //        {
-        //            TextWrapping = TextWrapping.Wrap,
-        //            Margin = new Thickness(10, 0, 10, 0),
-        //            HorizontalAlignment = HorizontalAlignment.Stretch,
-        //            FontSize = 16,
-        //            Text = String.IsNullOrEmpty(questionBlock.ShortName) ? "-" : questionBlock.ShortName
-        //        });
-
-        //        el1.Children.Add(new Label()
-        //        {
-        //            FontWeight = FontWeights.Bold,
-        //            Foreground = (Brush)(new BrushConverter().ConvertFrom("#303030")),
-        //            Content = "Вопросы:"
-        //        });
-
-        //        foreach (Question q in questionBlock.listQuestions)
-        //        {
-        //            i++;
-        //            StackPanel el2 = new StackPanel();
-        //            el2.Children.Add(new TextBlock()
-        //            {
-        //                TextWrapping = TextWrapping.Wrap,
-        //                Margin = new Thickness(30, 10, 30, 0),
-        //                FontSize = 16,
-        //                Text = i.ToString() + ". " + q.Text
-        //            });
-
-        //            RadioButton rb1 = new RadioButton()
-        //            {
-        //                IsEnabled = false,
-        //                BorderThickness = new Thickness(4),
-        //                VerticalContentAlignment = VerticalAlignment.Center,
-        //                Margin = new Thickness(20, 0, -10, 0),
-        //                Content = "Уровень 1"
-        //            };
-        //            RadioButton rb2 = new RadioButton()
-        //            {
-        //                IsEnabled = false,
-        //                BorderThickness = new Thickness(4),
-        //                VerticalContentAlignment = VerticalAlignment.Center,
-        //                Margin = new Thickness(20, 0, -10, 0),
-        //                Content = "Уровень 2"
-        //            };
-        //            RadioButton rb3 = new RadioButton()
-        //            {
-        //                IsEnabled = false,
-        //                BorderThickness = new Thickness(4),
-        //                VerticalContentAlignment = VerticalAlignment.Center,
-        //                Margin = new Thickness(20, 0, -10, 0),
-        //                Content = "Уровень 3"
-        //            };
-        //            WrapPanel el3 = new WrapPanel() { Margin = new Thickness(30, 10, 0, 10) };
-        //            el3.Children.Add(rb1); el3.Children.Add(rb2); el3.Children.Add(rb3);
-        //            el2.Children.Add(el3);
-        //            el1.Children.Add(el2);
-        //        }
-
-        //        WrapPanel el4 = new WrapPanel();
-
-        //        Button b1 = new Button()
-        //        {
-        //            Content = "Редактировать",
-        //            HorizontalAlignment = HorizontalAlignment.Left,
-        //            Margin = new Thickness(20, 5, -10, 10),
-        //            Padding = new Thickness(10, 5, 10, 5),
-        //            Background = (Brush)(new BrushConverter().ConvertFrom("#0067a2")),
-        //            Foreground = Brushes.White,
-        //            FontWeight = FontWeights.Light,
-        //            BorderThickness = new Thickness(0),
-        //            Uid = questionBlock.Id.ToString()
-        //        };
-        //        b1.Click += new RoutedEventHandler(Button_Click_Edit_Task);
-
-        //        Button b2 = new Button()
-        //        {
-        //            Content = "Удалить",
-        //            HorizontalAlignment = HorizontalAlignment.Left,
-        //            Margin = new Thickness(20, 5, -10, 10),
-        //            Padding = new Thickness(10, 5, 10, 5),
-        //            Background = (Brush)(new BrushConverter().ConvertFrom("#0067a2")),
-        //            Foreground = Brushes.White,
-        //            FontWeight = FontWeights.Light,
-        //            BorderThickness = new Thickness(0),
-        //            Uid = questionBlock.Id.ToString()
-        //        };
-        //        b2.Click += new RoutedEventHandler(Button_Click_Del_Task);
-        //        el4.Children.Add(b1); el4.Children.Add(b2);
-        //        el1.Children.Add(el4);
-
-        //        QuestionBlockesViewContainer.Children.Add(el1);
-        //    }
-        //}
-
+        
         // Загрузка информацией Анкета > Просмотр
         private void LoadQuestionBlockesView()
         {

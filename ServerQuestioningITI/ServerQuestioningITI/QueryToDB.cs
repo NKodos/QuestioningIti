@@ -4,25 +4,25 @@ using QuestioningLibrary;
 using QuestioningLibrary.Questionnaires;
 using System;
 using System.Collections.Generic;
+using System.Data;
 
 namespace ServerQuestioningITI
 {
-    public class QueryToDB
+    public class QueryToDb
     {
-        private string connStr = "server=localhost;CharSet=utf8;user=root;database=questioning;port=3306;";
+        private const string ConnStr = "server=localhost;CharSet=utf8;user=root;database=questioning;port=3306;";
         public string Type { get; set; }
         public string Table { get; set; }
         public string Query { get; set; }
-        public string nameCompanyForAnswers { get; set; } // условие для вывода Ответов
-        public string nameDirectionForAnswers { get; set; } // условие для вывода Ответов
-        public string password { get; set; } // пароль для авторизации
+        public string NameCompanyForAnswers { get; set; } // условие для вывода Ответов
+        public string NameDirectionForAnswers { get; set; } // условие для вывода Ответов
+        public string Password { get; set; } // пароль для авторизации
 
         public string RunQuery()
         {
             string answer = "";
 
-            MySqlDataReader rdr;
-            MySqlConnection connection = new MySqlConnection(connStr);
+            MySqlConnection connection = new MySqlConnection(ConnStr);
             connection.Open();
             MySqlCommand cmd = new MySqlCommand(Query, connection);
             if (Type != "SELECT")
@@ -32,7 +32,7 @@ namespace ServerQuestioningITI
             }
             else
             {
-                rdr = cmd.ExecuteReader();
+                MySqlDataReader rdr = cmd.ExecuteReader();
                 switch (Table)
                 {
                     case "QuestionBlocks":
@@ -67,7 +67,6 @@ namespace ServerQuestioningITI
                         answer = GetJsonDataForQuestionnaireInfo();
                         break;
                 }
-
             }
             connection.Close();
             return answer;
@@ -80,8 +79,8 @@ namespace ServerQuestioningITI
 
             while (rdr.Read())
             {
-                Industry Ind1 = new Industry() { Id = rdr.GetInt32("id"), Name = rdr["name"].ToString(), Description = rdr["description"].ToString() };
-                list.listIndustry.Add(Ind1);
+                Industry ind1 = new Industry() { Id = rdr.GetInt32("id"), Name = rdr["name"].ToString(), Description = rdr["description"].ToString() };
+                list.listIndustry.Add(ind1);
             }
             rdr.Close();
 
@@ -91,9 +90,9 @@ namespace ServerQuestioningITI
         // получить json-строку для Анкет
         private string GetJsonDataForQuestionnaire(MySqlDataReader rdr)
         {
-            MySqlDataReader rdrQB, rdrQuestion;
-            MySqlConnection connectionForQB = new MySqlConnection(connStr);
-            MySqlConnection connectionForQuestions = new MySqlConnection(connStr);
+            MySqlDataReader rdrQuestion;
+            MySqlConnection connectionForQB = new MySqlConnection(ConnStr);
+            MySqlConnection connectionForQuestions = new MySqlConnection(ConnStr);
             DateTime datetime = new DateTime();
 
             rdr.Read();
@@ -111,26 +110,26 @@ namespace ServerQuestioningITI
 
             connectionForQB.Open();
             MySqlCommand cmd = new MySqlCommand("SELECT * FROM questioning.qquestionsblocks WHERE idQuestionnaire='" + questionnair.Id.ToString() + "'", connectionForQB);
-            rdrQB = cmd.ExecuteReader();
+            MySqlDataReader rdrQb = cmd.ExecuteReader();
 
-            while (rdrQB.Read())
+            while (rdrQb.Read())
             {
-                QQuestionBlock QQB = new QQuestionBlock() { Id = new Guid(rdrQB["id"].ToString()), Title = rdrQB["name"].ToString(), ShortName = rdrQB["description"].ToString() };
+                QQuestionBlock qqb = new QQuestionBlock() { Id = new Guid(rdrQb["id"].ToString()), Title = rdrQb["name"].ToString(), ShortName = rdrQb["description"].ToString() };
 
                 connectionForQuestions.Open();
-                cmd = new MySqlCommand("SELECT * FROM questioning.qquestions WHERE idQuestionBlock='" + QQB.Id.ToString() + "'", connectionForQuestions);
+                cmd = new MySqlCommand("SELECT * FROM questioning.qquestions WHERE idQuestionBlock='" + qqb.Id.ToString() + "'", connectionForQuestions);
                 rdrQuestion = cmd.ExecuteReader();
 
                 while (rdrQuestion.Read())
                 {
-                    QQB.ListQQuestions.Add(new QQuestion() { Id = Convert.ToInt32(rdrQuestion["id"]), Text = rdrQuestion["text"].ToString()});
+                    qqb.ListQQuestions.Add(new QQuestion() { Id = Convert.ToInt32(rdrQuestion["id"]), Text = rdrQuestion["text"].ToString()});
                 }
 
-                questionnair.ListQQuestionBlocks.Add(QQB);
+                questionnair.ListQQuestionBlocks.Add(qqb);
                 rdrQuestion.Close();
                 connectionForQuestions.Close();
             }
-            rdrQB.Close();
+            rdrQb.Close();
             connectionForQB.Close();
 
             return JsonConvert.SerializeObject(questionnair);
@@ -139,11 +138,11 @@ namespace ServerQuestioningITI
         // получить json-строку для Анкет
         private string GetJsonDataForQuestionnaireInfo()
         {
-            MySqlDataReader rdr, rdr1;
+            MySqlDataReader rdr;
             List<QuestionnaireInfo> listQuestionnaireInfo = new List<QuestionnaireInfo>();
             DateTime datetime = new DateTime();
-            MySqlConnection connection = new MySqlConnection(connStr);
-            MySqlConnection connection1 = new MySqlConnection(connStr);
+            MySqlConnection connection = new MySqlConnection(ConnStr);
+            MySqlConnection connection1 = new MySqlConnection(ConnStr);
 
             connection.Open();
             Query = "SELECT * FROM questionnaires";
@@ -192,7 +191,7 @@ namespace ServerQuestioningITI
             {
                 List<Question> listQuestions = new List<Question>();
                 MySqlDataReader rdr1;
-                MySqlConnection connection = new MySqlConnection(connStr);
+                MySqlConnection connection = new MySqlConnection(ConnStr);
                 connection.Open();
                 MySqlCommand cmd = new MySqlCommand("SELECT * FROM questioning.questions WHERE idTaskType=" + rdr["id"].ToString(), connection);
                 rdr1 = cmd.ExecuteReader();
@@ -207,7 +206,7 @@ namespace ServerQuestioningITI
                 {
                     Id = int.Parse(rdr["id"].ToString()),
                     Title = rdr["name"].ToString(),
-                    ShortName = String.IsNullOrEmpty(rdr["description"].ToString()) ? "" : char.ToUpper(rdr["description"].ToString()[0]) + rdr["description"].ToString().Substring(1),
+                    ShortName = string.IsNullOrEmpty(rdr["description"].ToString()) ? "" : char.ToUpper(rdr["description"].ToString()[0]) + rdr["description"].ToString().Substring(1),
                     IdDirection = Convert.ToInt32(rdr["idDirections"]),
                     listQuestions = listQuestions
                 });
@@ -219,18 +218,17 @@ namespace ServerQuestioningITI
 
 
         // получить json-строку для Предприятий
-        private string GetJsonDataForBusinesses(MySqlDataReader rdr)
+        private string GetJsonDataForBusinesses(IDataReader rdr)
         {
             ListBusinesses list = new ListBusinesses();
 
             while (rdr.Read())
             {
                 Business b1 = new Business() { Id = Convert.ToInt32(rdr["id"]), Name = rdr["name"].ToString(), Description = rdr["description"].ToString(), Email = rdr["email"].ToString() };
-                MySqlDataReader rdr1;
-                MySqlConnection connection = new MySqlConnection(connStr);
+                MySqlConnection connection = new MySqlConnection(ConnStr);
                 connection.Open();
                 MySqlCommand cmd = new MySqlCommand("SELECT * FROM questioning.industry WHERE id=" + rdr["idIndustry"].ToString(), connection);
-                rdr1 = cmd.ExecuteReader();
+                MySqlDataReader rdr1 = cmd.ExecuteReader();
 
                 while (rdr1.Read())
                 {
@@ -266,15 +264,15 @@ namespace ServerQuestioningITI
             ListAnswersBlock list = new ListAnswersBlock();
             AnswersBlock aB = new AnswersBlock();
             MySqlDataReader rdrForCompany;
-            MySqlConnection connectionForCompany = new MySqlConnection(connStr);
+            MySqlConnection connectionForCompany = new MySqlConnection(ConnStr);
 
-            if (this.nameCompanyForAnswers != null)
+            if (this.NameCompanyForAnswers != null)
             {
                 string queryForCompany = "SELECT name FROM questioning.businesses "
-                    + "WHERE name = '" + this.nameCompanyForAnswers + "' AND (SELECT count(id) FROM questioning.qanswers "
+                    + "WHERE name = '" + this.NameCompanyForAnswers + "' AND (SELECT count(id) FROM questioning.qanswers "
                     + "WHERE idBusinesses=businesses.id AND idQuestion=(SELECT id FROM questioning.qquestions "
                     + "WHERE idQuestionBlock = (SELECT id FROM questioning.qquestionsblocks "
-                    + "WHERE idQuestionnaire = (SELECT id FROM questioning.questionnaires WHERE direction = '" + this.nameDirectionForAnswers + "' LIMIT 1)LIMIT 1)LIMIT 1) ) > 0";
+                    + "WHERE idQuestionnaire = (SELECT id FROM questioning.questionnaires WHERE direction = '" + this.NameDirectionForAnswers + "' LIMIT 1)LIMIT 1)LIMIT 1) ) > 0";
                 connectionForCompany.Open();
                 MySqlCommand cmd = new MySqlCommand(queryForCompany, connectionForCompany);
                 rdrForCompany = cmd.ExecuteReader();
@@ -285,7 +283,7 @@ namespace ServerQuestioningITI
                     + "WHERE (SELECT count(id) FROM questioning.qanswers "
                     + "WHERE idBusinesses=businesses.id AND idQuestion=(SELECT id FROM questioning.qquestions "
                     + "WHERE idQuestionBlock = (SELECT id FROM questioning.qquestionsblocks "
-                    + "WHERE idQuestionnaire = (SELECT id FROM questioning.questionnaires WHERE direction = '" + this.nameDirectionForAnswers + "' LIMIT 1)LIMIT 1)LIMIT 1) ) > 0";
+                    + "WHERE idQuestionnaire = (SELECT id FROM questioning.questionnaires WHERE direction = '" + this.NameDirectionForAnswers + "' LIMIT 1)LIMIT 1)LIMIT 1) ) > 0";
                 connectionForCompany.Open();
                 MySqlCommand cmd = new MySqlCommand(queryForCompany, connectionForCompany);
                 rdrForCompany = cmd.ExecuteReader();
@@ -294,7 +292,7 @@ namespace ServerQuestioningITI
 
             while (rdrForCompany.Read())
             {
-                MySqlConnection connection0 = new MySqlConnection(connStr);
+                MySqlConnection connection0 = new MySqlConnection(ConnStr);
                 connection0.Open();
                 MySqlCommand cmd0 = new MySqlCommand(Query, connection0);
                 MySqlDataReader rdr = cmd0.ExecuteReader();
@@ -304,7 +302,7 @@ namespace ServerQuestioningITI
                 while (rdr.Read())
                 {
                     List<Question> listQuestions = new List<Question>();
-                    MySqlConnection connection = new MySqlConnection(connStr);
+                    MySqlConnection connection = new MySqlConnection(ConnStr);
                     connection.Open();
                     string test = rdr["id"].ToString();
                     MySqlCommand cmd = new MySqlCommand("SELECT * FROM questioning.qquestions WHERE idQuestionBlock='" + rdr["id"].ToString() + "'", connection);
@@ -315,7 +313,7 @@ namespace ServerQuestioningITI
                         Question question = new Question() { Id = Convert.ToInt32(rdr1["id"]), Text = rdr1["text"].ToString() };
 
                         MySqlDataReader rdr2;
-                        MySqlConnection connection1 = new MySqlConnection(connStr);
+                        MySqlConnection connection1 = new MySqlConnection(ConnStr);
                         connection1.Open();
                         MySqlCommand cmd1 = new MySqlCommand("SELECT * FROM questioning.qanswers WHERE idQuestion=" + question.Id.ToString() + " AND idBusinesses = " +
                             "(SELECT id FROM questioning.businesses WHERE name = '" + rdrForCompany.GetString("name") + "')", connection1);
@@ -355,7 +353,7 @@ namespace ServerQuestioningITI
 
             if (rdr.Read())
             {
-                if (rdr.GetString("password") == this.password)
+                if (rdr.GetString("password") == this.Password)
                     answer = "ok";
             }            
 
