@@ -262,9 +262,9 @@ namespace questioningITI
         private void LoadQuestionBlockesView()
         {
             
-            _answer = QueryToDB.SendQuery(_query); // отправка запроса и получение ответа от сервера
+            _answer = QueryToDB.SendQuery(_query);
 
-            ListQuestionBlocks LQB = (ListQuestionBlocks)QueryToDB.ProcessResponse(_answer, _query); // обработка ответа от сервера (получаем екземпляр класса)
+            ListQuestionBlocks LQB = (ListQuestionBlocks)QueryToDB.ProcessResponse(_answer, _query);
 
             QuestionBlockesViewContainer.Children.Clear();
             // заполнение информацией
@@ -428,8 +428,6 @@ namespace questioningITI
         {
             AnswersBlockViewContainer.Children.Clear();
 
-            string conditionForQuery = "";
-
             if (cbDirInAnswers.SelectedValue != null)
             {
                 if (cbCompanyInAnswers.SelectedValue == null || cbCompanyInAnswers.SelectedValue.ToString() == "Любое")
@@ -437,7 +435,6 @@ namespace questioningITI
                 else
                 {
                     _query.nameCompanyForAnswers = cbCompanyInAnswers.SelectedValue.ToString();
-                    conditionForQuery = "AND idBusinesses = (SELECT id FROM questioning.businesses WHERE name='" + _query.nameCompanyForAnswers + "')";
                 }
                 _query.nameDirectionForAnswers = cbDirInAnswers.SelectedValue.ToString();
 
@@ -619,7 +616,7 @@ namespace questioningITI
                     Margin = new Thickness(10, 0, 10, 0),
                     HorizontalAlignment = HorizontalAlignment.Stretch,
                     FontSize = 16,
-                    Text = String.IsNullOrEmpty(b.Email) ? "-" : b.Email
+                    Text = string.IsNullOrEmpty(b.Email) ? "-" : b.Email
                 });
 
                 el1.Children.Add(new TextBlock()
@@ -635,7 +632,7 @@ namespace questioningITI
                     Margin = new Thickness(10, 0, 10, 0),
                     HorizontalAlignment = HorizontalAlignment.Stretch,
                     FontSize = 14,
-                    Text = String.IsNullOrEmpty(b.Description) ? "-" : b.Description
+                    Text = string.IsNullOrEmpty(b.Description) ? "-" : b.Description
                 });
 
                 WrapPanel el2 = new WrapPanel() { Margin = new Thickness(0, 10, 0, 0) };
@@ -884,7 +881,6 @@ namespace questioningITI
         {
             try
             {
-
                 _query.Type = "SELECT";
                 _query.Table = "Directions";
                 _query.Query = "SELECT * FROM questioning.Directions";
@@ -965,10 +961,11 @@ namespace questioningITI
         // Нажатие на кнопку Найти в Предприятия > Просмотр
         private void btnSearchInCompanyView_Click(object sender, RoutedEventArgs e)
         {
-            string condition = "";
-            condition = " WHERE name LIKE '%"+ tbSearchInCompanyView.Text + "%'";
+            string condition = " WHERE name LIKE '%"+ tbSearchInCompanyView.Text + "%'";
+
             if (cbIndustryInCompanyView.SelectedItem != null && cbIndustryInCompanyView.SelectedValue.ToString() != "Любая")
                 condition += " AND idIndustry = (SELECT id FROM questioning.industry WHERE name = '" + cbIndustryInCompanyView.SelectedValue.ToString() + "')";
+
             _query.Type = "SELECT";
             _query.Table = "Businesses";
             _query.Query = "SELECT * FROM questioning.businesses" + condition;
@@ -996,8 +993,7 @@ namespace questioningITI
         // Нажатие на кнопку Найти в Направления > Просмотр
         private void btnSearchInDirectionView_Click(object sender, RoutedEventArgs e)
         {
-            string condition = "";
-            condition = " WHERE name LIKE '%" + tbSearchInDirectionView.Text + "%'";
+            string condition = " WHERE name LIKE '%" + tbSearchInDirectionView.Text + "%'";
             _query.Type = "SELECT";
             _query.Table = "Directions";
             _query.Query = "SELECT * FROM questioning.directions" + condition;
@@ -1513,7 +1509,7 @@ namespace questioningITI
         // Кнопка Сохранить и отправит в Редакторе форм
         private void btnSaveQuestioningEditor_Click(object sender, RoutedEventArgs e)
         {
-            if (!String.IsNullOrEmpty(cbDirInEditor.SelectedValue.ToString()) && listBoxTasksRight.Items.Count > 1)
+            if (!string.IsNullOrEmpty(cbDirInEditor.SelectedValue.ToString()) && listBoxTasksRight.Items.Count > 1)
             {
                 Guid idQuestionnaire = Guid.NewGuid();
                 Guid idQuestionBlock = Guid.NewGuid();
