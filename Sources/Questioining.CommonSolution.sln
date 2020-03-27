@@ -30,6 +30,10 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Questioning.WebForm", "Ques
 		SlnRelativePath = "Questioning.WebForm\"
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Questioning.Data", "Questioning.Data\Questioning.Data.csproj", "{5F00AF0F-05C4-4A14-A26C-3D0ECFCBD2BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Questioning.Data.MySql", "Questioning.Data.MySql\Questioning.Data.MySql.csproj", "{4B3D0047-9794-482C-8581-3F9CD9798334}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -52,6 +56,14 @@ Global
 		{71AE083A-6DD7-4A56-B6DB-A3F3A7285A1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{71AE083A-6DD7-4A56-B6DB-A3F3A7285A1E}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{71AE083A-6DD7-4A56-B6DB-A3F3A7285A1E}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{5F00AF0F-05C4-4A14-A26C-3D0ECFCBD2BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F00AF0F-05C4-4A14-A26C-3D0ECFCBD2BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F00AF0F-05C4-4A14-A26C-3D0ECFCBD2BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F00AF0F-05C4-4A14-A26C-3D0ECFCBD2BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B3D0047-9794-482C-8581-3F9CD9798334}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B3D0047-9794-482C-8581-3F9CD9798334}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B3D0047-9794-482C-8581-3F9CD9798334}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B3D0047-9794-482C-8581-3F9CD9798334}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
