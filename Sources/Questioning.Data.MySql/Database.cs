@@ -1,15 +1,12 @@
 ﻿using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Questioning.Data.MySql
 {
-    public class Database
+    public class Database : Data.DataBase
     {
+        public override IDataProvider DataProvider { get; }
+
         private MySqlConnection _connection = new MySqlConnection();
         private MySqlCommand _command = new MySqlCommand();
 

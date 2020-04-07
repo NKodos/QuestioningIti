@@ -64,6 +64,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConnectionSettings.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="MySqlDataProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
