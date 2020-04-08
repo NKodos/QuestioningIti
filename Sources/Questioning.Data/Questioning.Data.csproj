@@ -43,10 +43,12 @@
   <ItemGroup>
     <Compile Include="BaseDataProvider.cs" />
     <Compile Include="DataBase.cs" />
+    <Compile Include="EventArgs\DatabaseEventArgs.cs" />
     <Compile Include="IDataBase.cs" />
     <Compile Include="IDataProvider.cs" />
     <Compile Include="ParameterSetupFunction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Questioning.Data.EventArgs;
+using System;
 using System.Data;
 using System.Data.Common;
 
@@ -6,26 +7,30 @@ namespace Questioning.Data
 {
     public abstract class BaseDataProvider : IDataProvider
     {
-        public BaseDataProvider(string connnetctionString)
+        protected BaseDataProvider(string connnetctionString)
         {
-            ConnectionString = connnetctionString;
+            ConnectionString = connnetctionString ?? throw new ArgumentNullException(nameof(connnetctionString));
         }
+
+        public delegate void LogSetupFunction(DbCommand command);
+        public delegate void CommandExecuteHandler(object sender, CommandExecuteArgs eventArgs);
+        public event CommandExecuteHandler CommandExecute;
 
         public string ConnectionString { get; }
 
-
         protected abstract DbConnection CreateConnection();
+        protected abstract DbDataAdapter CreateDataAdapter();
         protected abstract DbCommand CreateCommand(string query, CommandType commandType);
 
 
         public void ExecuteNoQuery(string query, CommandType commandType)
         {
-            throw new NotImplementedException();
+            ExecuteNoQuery(query, commandType, command => { });
         }
 
         public void ExecuteNoQuery(string query, ParameterSetupFunction parameterSetupFunction)
         {
-            throw new NotImplementedException();
+            ExecuteNoQuery(query, CommandType.StoredProcedure, parameterSetupFunction);
         }
 
         public void ExecuteNoQuery(string query, CommandType commandType, ParameterSetupFunction parameterSetup)
@@ -46,17 +51,38 @@ namespace Questioning.Data
 
         public object ExecuteScalar(string query, CommandType commandType)
         {
-            throw new NotImplementedException();
+            return ExecuteScalar(query, commandType, command => { });
         }
 
         public object ExecuteScalar(string query, ParameterSetupFunction parameterSetupFunction)
         {
-            throw new NotImplementedException();
+            return ExecuteScalar(query, CommandType.StoredProcedure, parameterSetupFunction);
         }
 
         public object ExecuteScalar(string query, CommandType commandType, ParameterSetupFunction parameterSetupFunction)
         {
-            throw new NotImplementedException();
+            if (query == null) throw new ArgumentNullException(nameof(query));
+
+            object value;
+
+            using (var connection = CreateConnection())
+            {
+                connection.Open();
+                using (var cmd = CreateCommand(query, commandType))
+                {
+                    cmd.Connection = connection;
+                    parameterSetupFunction(cmd);
+                    value = cmd.ExecuteScalar();
+                }
+            }
+
+            return value;
+        }
+
+        private void OnCommandExecute(CommandExecuteArgs eventArgs)
+        {
+            var handler = CommandExecute;
+            handler?.Invoke(this, eventArgs);
         }
     }
 }

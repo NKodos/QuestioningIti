@@ -5,10 +5,33 @@ namespace Questioning.Data.MySql
 {
     public class Database : Data.DataBase
     {
+        #region Constructors
+
+        public Database(ConnectionSettings connectionSettings)
+        {
+            ConnectionSettings = connectionSettings;
+            DataProvider = new MySqlDataProvider(connectionSettings.ToString());
+        }
+
+        public Database(string connectionString)
+            :this(ConnectionSettings.FromConnectionString(connectionString)) { }
+
+        #endregion
+
+
         public override IDataProvider DataProvider { get; }
+
+        public ConnectionSettings ConnectionSettings { get; }
+
 
         private MySqlConnection _connection = new MySqlConnection();
         private MySqlCommand _command = new MySqlCommand();
+
+        #region Repositories
+
+        
+
+        #endregion
 
         public void ExecuteStoreProcedure()
         {
