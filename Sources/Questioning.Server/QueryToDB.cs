@@ -208,7 +208,7 @@ namespace ServerQuestioningITI
                     Title = rdr["name"].ToString(),
                     ShortName = string.IsNullOrEmpty(rdr["description"].ToString()) ? "" : char.ToUpper(rdr["description"].ToString()[0]) + rdr["description"].ToString().Substring(1),
                     IdDirection = Convert.ToInt32(rdr["idDirections"]),
-                    listQuestions = listQuestions
+                    ListQuestions = listQuestions
                 });
             }
             rdr.Close();
@@ -334,7 +334,7 @@ namespace ServerQuestioningITI
                         //Id = int.Parse(rdr["id"].ToString()),
                         Title = rdr["name"].ToString(),
                         ShortName = String.IsNullOrEmpty(rdr["description"].ToString()) ? "" : char.ToUpper(rdr["description"].ToString()[0]) + rdr["description"].ToString().Substring(1),
-                        listQuestions = listQuestions
+                        ListQuestions = listQuestions
                     });
                 }
                 rdr.Close();

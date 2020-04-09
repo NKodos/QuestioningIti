@@ -46,6 +46,7 @@
     <Compile Include="ListIndustry.cs" />
     <Compile Include="ListQuestionBlocks.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QuestionBlock.cs" />
     <Compile Include="QuestionnaireInfo.cs" />
     <Compile Include="Questionnaires\QQuestionBlock.cs" />
     <Compile Include="Questionnaires\QQuestion.cs" />

@@ -7,53 +7,30 @@ namespace Questioning.Data.MySql
     {
         #region Constructors
 
+        public Database(string connectionString)
+            :this(ConnectionSettings.FromConnectionString(connectionString)) { }
+
         public Database(ConnectionSettings connectionSettings)
         {
             ConnectionSettings = connectionSettings;
             DataProvider = new MySqlDataProvider(connectionSettings.ToString());
         }
 
-        public Database(string connectionString)
-            :this(ConnectionSettings.FromConnectionString(connectionString)) { }
-
         #endregion
 
+
+        #region Properties
 
         public override IDataProvider DataProvider { get; }
 
         public ConnectionSettings ConnectionSettings { get; }
 
-
-        private MySqlConnection _connection = new MySqlConnection();
-        private MySqlCommand _command = new MySqlCommand();
+        #endregion
 
         #region Repositories
 
-        
+
 
         #endregion
-
-        public void ExecuteStoreProcedure()
-        {
-            _connection.Open();
-            _command.Connection = _connection;
-
-            _command.CommandText = "add_emp";
-            _command.CommandType = CommandType.StoredProcedure;
-
-            _command.Parameters.AddWithValue("@lname", "Jones");
-            _command.Parameters["@lname"].Direction = ParameterDirection.Input;
-
-            _command.Parameters.AddWithValue("@fname", "Tom");
-            _command.Parameters["@fname"].Direction = ParameterDirection.Input;
-
-            _command.Parameters.AddWithValue("@bday", "1940-06-07");
-            _command.Parameters["@bday"].Direction = ParameterDirection.Input;
-
-            _command.Parameters.AddWithValue("@empno", MySqlDbType.Int32);
-            _command.Parameters["@empno"].Direction = ParameterDirection.Output;
-
-            _command.ExecuteNonQuery();
-        }
     }
 }
