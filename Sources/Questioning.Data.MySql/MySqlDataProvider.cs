@@ -1,58 +1,26 @@
 ﻿using MySql.Data.MySqlClient;
-using System;
 using System.Data;
+using System.Data.Common;
 
 namespace Questioning.Data.MySql
 {
-    public class MySqlDataProvider : IDataProvider
+    public class MySqlDataProvider : BaseDataProvider
     {
-        public MySqlDataProvider(string connnetctionString)
+        public MySqlDataProvider(string connnetctionString) : base(connnetctionString)
         {
-            ConnectionString = connnetctionString;
         }
 
-        public string ConnectionString { get; }
-
-        #region PublicMethods
-        public void ExecuteNoQuery(string query, CommandType commandType)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ExecuteNoQuery(string query, ParameterSetupFunction parameterSetupFunction)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ExecuteNoQuery(string query, CommandType commandType, ParameterSetupFunction parameterSetupFunction)
-        {
-            throw new NotImplementedException();
-        }
-
-        public object ExecuteScalar(string query, CommandType commandType)
-        {
-            throw new NotImplementedException();
-        }
-
-        public object ExecuteScalar(string query, ParameterSetupFunction parameterSetupFunction)
-        {
-            throw new NotImplementedException();
-        }
-
-        public object ExecuteScalar(string query, CommandType commandType, ParameterSetupFunction parameterSetupFunction)
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
-
-
-        #region ProtectedMethods
-        protected MySqlConnection CreateConnection()
+        protected override DbConnection CreateConnection()
         {
             return new MySqlConnection(ConnectionString);
         }
 
-        protected MySqlCommand CreateCommand(string commandText, CommandType commandType)
+        protected override DbDataAdapter CreateDataAdapter()
+        {
+            return new MySqlDataAdapter();
+        }
+
+        protected override DbCommand CreateCommand(string commandText, CommandType commandType)
         {
             return new MySqlCommand(commandText)
             {
@@ -61,6 +29,5 @@ namespace Questioning.Data.MySql
                 CommandType = commandType
             };
         }
-        #endregion
     }
 }

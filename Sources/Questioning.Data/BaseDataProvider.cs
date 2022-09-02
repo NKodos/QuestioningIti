@@ -20,7 +20,7 @@ namespace Questioning.Data
 
         protected abstract DbConnection CreateConnection();
         protected abstract DbDataAdapter CreateDataAdapter();
-        protected abstract DbCommand CreateCommand(string query, CommandType commandType);
+        protected abstract DbCommand CreateCommand(string commandText, CommandType commandType);
 
 
         public void ExecuteNoQuery(string query, CommandType commandType)
